@@ -31,8 +31,8 @@ async function seedDB() {
 
         //create labels
         const labels = await Label.create([
-            { name: 'Columbia Records', founded: 1888 },
-            { name: 'Warner Bros. Records', founded: 1958 },
+            { name: 'Columbia', founded: 1888 },
+            { name: 'Warner Bros.', founded: 1958 },
             { name: 'Atlantic', founded: 1947 },
             { name: 'Sony Music', founded: 1929 },
             { name: 'Wrap', founded: 1989 },
@@ -54,7 +54,7 @@ async function seedDB() {
             { first_name: 'Aphex', last_name: 'Twin', birth_date: new Date('1971-08-18'), country: 'UK', image: '' },
             { first_name: 'Westside', last_name: 'Gunn', birth_date: new Date('1982-07-27'), country: 'USA', image: '' },
             { first_name: 'Mac', last_name: 'Miller', birth_date: new Date('1992-01-19'), death_date: new Date('2018-9-7'), country: 'USA', image: '' },
-            { first_name: 'Linkin', last_name: 'Park', country: 'USA', image: '' },//fix dates
+            { first_name: 'Linkin', last_name: 'Park', country: 'USA', image: '' },
         ]);
 
         // Create albums
@@ -62,7 +62,7 @@ async function seedDB() {
             { title: 'Demon Days', release_date: new Date('2005-04-11'), artist: artists[0]._id, label: labels[0]._id, genre: genres[0]._id, image: 'https://upload.wikimedia.org/wikipedia/en/d/df/Gorillaz_Demon_Days.PNG' },
             { title: 'Swimming', release_date: new Date('2018-08-3'), artist: artists[8]._id, label: labels[1]._id, genre: genres[4]._id, image: 'https://upload.wikimedia.org/wikipedia/en/5/5e/Mac_Miller_-_Swimming.png' },
             { title: 'Konnichiwa', release_date: new Date('2016-05-06'), artist: artists[2]._id, label: labels[8]._id, genre: genres[4]._id, image: 'https://upload.wikimedia.org/wikipedia/en/0/08/Konnichiwa_by_Skepta_cover.jpg' },
-            { title: 'Big Fish Theory', release_date: new Date('2017-06-23'), artist: artists[3]._id, label: labels[7]._id, genre: genres[4]._id, image: 'https://upload.wikimedia.org/wikipedia/en/thumb/c/c0/Vince-Staples-Big-Fish-Theory.jpeg/220px-Vince-Staples-Big-Fish-Theory.jpeg' },
+            { title: 'Big Fish Theory', release_date: new Date('2017-06-23'), artist: artists[3]._id, label: labels[7]._id, genre: genres[4]._id, image: 'https://i1.sndcdn.com/artworks-cc041f23-821d-428f-b7e1-adf06bb2e40f-0-t500x500.jpg' },
             { title: 'The Life of Pablo', release_date: new Date('2016-02-14'), artist: artists[4]._id, label: labels[7]._id, genre: genres[4]._id, image: 'https://upload.wikimedia.org/wikipedia/en/4/4d/The_life_of_pablo_alternate.jpg' },
             { title: 'DAMN.', release_date: new Date('2017-04-14'), artist: artists[5]._id, label: labels[6]._id, genre: genres[4]._id, image: 'https://upload.wikimedia.org/wikipedia/en/5/51/Kendrick_Lamar_-_Damn.png' },
             { title: 'Selected Ambient Works 85-92', release_date: new Date('1992-04-20'), artist: artists[6]._id, label: labels[9]._id, genre: genres[5]._id, image: 'https://upload.wikimedia.org/wikipedia/en/8/82/Selected_Ambient_Works_85-92.png' },
@@ -79,7 +79,7 @@ async function seedDB() {
             { title: 'Brat', release_date: new Date('2024-06-07'), artist: artists[1]._id, label: labels[1]._id, genre: genres[5]._id, image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Charli_XCX_-_Brat_%28album_cover%29.png/1024px-Charli_XCX_-_Brat_%28album_cover%29.png' },
             { title: 'Meteora', release_date: new Date('2003-03-25'), artist: artists[9]._id, label: labels[1]._id, genre: genres[0]._id, image: 'https://upload.wikimedia.org/wikipedia/en/0/0c/Linkin_Park_Meteora_Album_Cover.jpg' },
             { title: 'The Divine Feminine', release_date: new Date('2016-09-16'), artist: artists[8]._id, label: labels[1]._id, genre: genres[4]._id, image: 'https://upload.wikimedia.org/wikipedia/en/9/93/Mac_Miller_-_The_Divine_Feminine.png' },
-            { title: 'Yeezus', release_date: new Date('2013-06-18'), artist: artists[4]._id, label: labels[7]._id, genre: genres[4]._id, image: 'https://upload.wikimedia.org/wikipedia/en/0/03/Yeezus_album_cover.png' },//fin other
+            { title: 'Yeezus', release_date: new Date('2013-06-18'), artist: artists[4]._id, label: labels[7]._id, genre: genres[4]._id, image: 'https://cdn.thenet.ng/wp-content/uploads/2013/06/Kanye-West-Yeezus-cover-art.jpg' },
             { title: 'To Pimp a Butterfly', release_date: new Date('2015-03-15'), artist: artists[5]._id, label: labels[6]._id, genre: genres[4]._id, image: 'https://upload.wikimedia.org/wikipedia/en/f/f6/Kendrick_Lamar_-_To_Pimp_a_Butterfly.png' },
             { title: 'Drukqs', release_date: new Date('2001-10-22'), artist: artists[6]._id, label: labels[4]._id, genre: genres[5]._id, image: 'https://upload.wikimedia.org/wikipedia/en/f/f0/Drukqs_%28Front_Cover%29.png' },
             { title: 'Supreme Blientele', release_date: new Date('2018-06-22'), artist: artists[7]._id, label: labels[5]._id, genre: genres[4]._id, image: 'https://media.pitchfork.com/photos/652ddd1d4025c777515d3963/master/pass/Westside-Gunn-Supreme-Blientele.jpg' }

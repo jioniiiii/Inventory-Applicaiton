@@ -1,2 +1,6 @@
 # Inventory-Applicaiton
-An Express app with MongoDB for managing inventory, featuring CRUD operations, configurable delete actions, and admin protection.
+    For future:
+        -clean code and add comments
+        -make ui better and add external css 
+        -ad crud 
+        -ad admin

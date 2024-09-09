@@ -1,3 +1,4 @@
+<!-- maybe remake card so car is not the whole card but its has linkfor genre and label etc -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,22 +64,28 @@
     .album:hover {
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
+    a {
+            color: black;
+            text-decoration: none;
+        }
   </style>
 </head>
 <body>
   <h1>Albums</h1>
   <ul>
     <% albums.forEach(album => { %>
-      <li class="album">
-        <% if (album.image) { %>
-          <img src="<%= album.image %>" alt="<%= album.title %>">
-        <% } %>
-        <h2><%= album.title %></h2>
-        <p><strong>Released:</strong> <%= album.release_date.toDateString() %></p>
-        <p><strong>Artist:</strong> <%= album.artist.name %></p>
-        <p><strong>Genre:</strong> <%= album.genre ? album.genre.name : 'N/A' %></p>
-        <p><strong>Label:</strong> <%= album.label ? album.label.name : 'N/A' %></p>
-      </li>
+      <a href="/album/<%= encodeURIComponent(album.title) %>">
+        <li class="album">
+          <% if (album.image) { %>
+            <img src="<%= album.image %>" alt="<%= album.title %>">
+          <% } %>
+          <h2><%= album.title %></h2>
+          <p><strong>Released:</strong> <%= album.release_date.toDateString() %></p>
+          <p><strong>Artist:</strong> <%= album.artist.name %></p>
+          <p><strong>Genre:</strong> <%= album.genre ? album.genre.name : 'N/A' %></p>
+          <p><strong>Label:</strong> <%= album.label ? album.label.name : 'N/A' %></p>
+        </li>
+      </a>
     <% }) %>
   </ul>
 </body>
