@@ -4,89 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Albums</title>
+    <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-    <style>
-        body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background-color: #f5f5f5;
-    color: #333;
-}
-.navbar {
-    background: #1f1f1f;
-    padding: 10px 20px;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    justify-content: flex-start;
-}
-
-.nav-links li {
-    margin-right: 20px;
-}
-
-.nav-links a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-header {
-    text-align: center;
-    margin: 20px 0;
-    color: #444;
-}
-
-.swiper-container {
-    padding: 20px;
-}
-
-.album-card {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.3s;
-}
-
-.album-card:hover {
-    transform: scale(1.05);
-}
-
-.album-card img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-}
-
-.album-info {
-    padding: 10px;
-    text-align: center;
-}
-
-.swiper-pagination {
-    margin-top: 1rem;
-   
-}
-a {
-            color: black;
-            text-decoration: none;
-        }
-
-</style>
 </head>
 <body>
-    <nav class="navbar">
-        <ul class="nav-links">
-            <li><a href="/albums">Albums</a></li>
-            <li><a href="/genres">Genres</a></li>
-            <li><a href="/labels">Labels</a></li>
-            <li><a href="/artists">Artists</a></li>
-        </ul>
-    </nav>
-
+    <%- include('partials/nav') %>
+    
     <header>
         <h1>Featured Albums</h1>
     </header>
@@ -113,7 +36,6 @@ a {
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Initialize Swiper
             var swiper = new Swiper('.swiper-container', {
                 loop: true,
                 autoplay: {
@@ -125,17 +47,39 @@ a {
                     clickable: true,
                 },
                 slidesPerView: 3,
-                spaceBetween: 20,
+                spaceBetween: 25,
                 breakpoints: {
-                    768: {
+                    1940: {
+                        slidesPerView: 7,
+                        spaceBetween: 25,
+                    },
+                    1620: {
+                        slidesPerView: 6,
+                        spaceBetween: 25,
+                    },
+                    1300: {
+                        slidesPerView: 5,
+                        spaceBetween: 25,
+                    },
+                    1000: {
+                        slidesPerView: 4,
+                        spaceBetween: 25,
+                    },
+                    740: {
                         slidesPerView: 3,
-                        spaceBetween: 20,
+                        spaceBetween: 25,
                     },
                     480: {
+                        slidesPerView: 2,
+                        spaceBetween: 25,
+                    },
+                    0: {
                         slidesPerView: 1,
-                        spaceBetween: 10,
+                        spaceBetween: 25,
                     },
                 },
+                effect: 'slide', 
+                speed: 600,
             });
         });
     </script>

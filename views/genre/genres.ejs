@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genres</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <%- include('../partials/nav') %>
+    <header>
+        <div class="conteiner">
+            <h1>Genres</h1>
+        </div>
+    </header>
+    <div class="container">
+        <div class="grid-container">
+            <% genres.forEach(genre => { %>
+                <div class="genre-card">
+                    <a href="/genre/<%= encodeURIComponent(genre._id) %>"><h2><%= genre.name %></h2></a> 
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</body>
+</html>

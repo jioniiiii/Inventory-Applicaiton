@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= album.title %> - Details</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <%- include('../partials/nav') %>
+    <div class="album-details">
+        <img src="<%= album.image %>" alt="<%= album.title %>">
+        <div class="album-info">
+            <h1><%= album.title %></h1>
+            <p><strong>Released:</strong> <%= album.release_date.toDateString() %></p>
+            <p><strong>Artist:</strong> <%= album.artist.name %></p>
+            <p><strong>Genre:</strong> <%= album.genre ? album.genre.name : 'N/A' %></p>
+            <p><strong>Label:</strong> <%= album.label ? album.label.name : 'N/A' %></p>
+        </div>
+    </div>
+</body>
+</html>

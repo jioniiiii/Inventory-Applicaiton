@@ -7,7 +7,7 @@ const Label = require('../models/Label');
 exports.getAllLabels = async (req, res) => {
     try {
       const labels = await Label.find()
-      res.render('labels', { labels });
+      res.render('./label/labels', { labels });
     } catch (error) {
       console.error('Error fetching labels:', error);
       res.status(500).send('Internal Server Error');
@@ -23,7 +23,7 @@ exports.getLabelsAlbums = async (req, res) => {
         .populate('artist', 'first_name last_name')
         .populate('genre', 'name');
   
-        res.render('label', { label, albums });
+        res.render('./label/label', { label, albums });
     } catch (error) {
       console.error('Error fetching labels albums:', error);
       res.status(500).send('Internal Server Error');

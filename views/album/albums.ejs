@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Albums</title>
+  <link rel="stylesheet" href="/css/styles.css">          
+</head>
+<body>
+  <%- include('../partials/nav') %>
+  <header>
+    <div class="container">
+      <h1>Albums</h1>
+    </div>
+  </header>
+  <div class="albums-grid">
+    <% albums.forEach(album => { %>
+      <a href="/album/<%= encodeURIComponent(album.title) %>">
+          <div class="album-card">
+            <% if (album.image) { %>
+              <img src="<%= album.image %>" alt="<%= album.title %>">
+            <% } %>
+            <div class="album-info">
+              <h2><%= album.title %></h2>
+              <p><strong>Released:</strong> <%= album.release_date.toDateString() %></p>
+              <p><strong>Artist:</strong> <%= album.artist.name %></p>
+              <p><strong>Genre:</strong> <%= album.genre ? album.genre.name : 'N/A' %></p>
+              <p><strong>Label:</strong> <%= album.label ? album.label.name : 'N/A' %></p>
+            </div>
+        </div>
+      </a>
+    <% }) %>
+  </div>
+</body>
+</html>

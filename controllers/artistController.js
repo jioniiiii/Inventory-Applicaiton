@@ -6,7 +6,7 @@ const Label = require('../models/Label');
 exports.getAllArtists = async (req, res) => {
     try {
       const artists = await Artist.find()
-      res.render('artists', { artists });
+      res.render('./artist/artists', { artists });
     } catch (error) {
       console.error('Error retrieving artists:', error);
       res.status(500).send('Internal Server Error');
@@ -22,7 +22,7 @@ exports.getArtistAlbums = async (req, res) => {
     .populate('genre', 'name')
     .populate('label', 'name')
 
-      res.render('artist', { artist, albums });
+      res.render('./artist/artist', { artist, albums });
   } catch (error) {
     console.error('Error fetching artists albums:', error);
     res.status(500).send('Internal Server Error');

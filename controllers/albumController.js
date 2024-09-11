@@ -11,7 +11,7 @@ exports.getAllAlbums = async (req, res) => {
             .populate('label', 'name')  
             .populate('genre', 'name'); 
         
-    res.render('albums', { albums });
+    res.render('./album/albums', { albums });
   } catch (error) {
     console.error('Error retrieving albums:', error);
     res.status(500).send('Error retrieving albums');
@@ -45,7 +45,7 @@ exports.getAlbum = async (req, res) => {
       return res.status(404).send('Album nto found');
     }
 
-    res.render('album', { album: singleAlbum });
+    res.render('./album/album', { album: singleAlbum });
   } catch (error) {
     console.error('Error fetching album:', error);
     res.status(500).send('Internal Server Error');
