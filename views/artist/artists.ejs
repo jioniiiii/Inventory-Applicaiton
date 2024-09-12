@@ -19,6 +19,9 @@
                 <% artists.forEach(artist => { %>
                     <div class="artist-card">
                         <a href="/artist/<%= encodeURIComponent(artist._id) %>">
+                            <% if (artist.image) { %>
+                                <img src="<%= artist.image %>" alt="<%= artist.first_name %>">
+                              <% } %>
                             <h2><%= artist.name %></h2>
                         </a>
                     </div>

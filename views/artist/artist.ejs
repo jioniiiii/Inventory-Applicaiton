@@ -8,22 +8,32 @@
 </head>
 <body>
     <%- include('../partials/nav') %>
-    <div class="artist-info">
-        <h1>Albums by <%= artist.name %></h1>
-        <p><strong>Born:</strong> <%= artist.birth_date ? artist.birth_date.toDateString() : 'N/A' %></p>
-    </div>
-    <div class="albums-grid">
-        <% albums.forEach(album => { %>
-            <div class="album-card">
-                <a href="/album/<%= encodeURIComponent(album.title) %>">
-                    <img src="<%= album.image %>" alt="<%= album.title %>">
-                    <div class="album-info">
-                        <h3><%= album.title %></h3>
-                        <p><strong>Release Date:</strong> <%= album.release_date_formatted %></p>
-                    </div>
-                </a>
+    <div class="artist-cont">
+        <div class="artist-card">
+            <div class="artist-img">
+                <% if (artist.image) { %>
+                    <img src="<%= artist.image %>" alt="<%= artist.first_name %>">
+                <% } %>
             </div>
-        <% }) %>
+            <div class="artist-info">
+                <h2>Albums by <%= artist.name %></h2>
+                <p><strong>Born:</strong> <%= artist.birth_date ? artist.birth_date.toDateString() : 'N/A' %></p>
+                <p><strong>Country:</strong> <%= artist.country%></p>
+            </div>
+        </div>
+        <div class="albums-grid">
+            <% albums.forEach(album => { %>
+                <div class="album-card">
+                    <a href="/album/<%= encodeURIComponent(album.title) %>">
+                        <img src="<%= album.image %>" alt="<%= album.title %>">
+                        <div class="album-info">
+                            <h3><%= album.title %></h3>
+                            <p><strong>Release Date:</strong> <%= album.release_date_formatted %></p>
+                        </div>
+                    </a>
+                </div>
+            <% }) %>
+        </div>
     </div>
 </body>
 </html>

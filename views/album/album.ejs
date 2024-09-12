@@ -8,14 +8,34 @@
 </head>
 <body>
     <%- include('../partials/nav') %>
-    <div class="album-details">
-        <img src="<%= album.image %>" alt="<%= album.title %>">
-        <div class="album-info">
-            <h1><%= album.title %></h1>
-            <p><strong>Released:</strong> <%= album.release_date.toDateString() %></p>
-            <p><strong>Artist:</strong> <%= album.artist.name %></p>
-            <p><strong>Genre:</strong> <%= album.genre ? album.genre.name : 'N/A' %></p>
-            <p><strong>Label:</strong> <%= album.label ? album.label.name : 'N/A' %></p>
+    <div class="album-cont">
+        <div class="album-card">
+            <div class="album-img">
+                <img src="<%= album.image %>" alt="<%= album.title %>">
+            </div>
+            <div class="album-info">
+                <h3><%= album.title %></h3>
+                <p><strong>Released:</strong> <%= album.release_date.toDateString() %></p>
+                <p><strong>Artist:</strong> <a href="/artist/<%= encodeURIComponent(album.artist._id) %>"><%= album.artist.name %></a></p>
+                <p><strong>Genre:</strong> <a href="/genre/<%= encodeURIComponent(album.genre._id) %>"><%= album.genre ? album.genre.name : 'N/A' %></a></p>
+                <p><strong>Label:</strong> <a href="/label/<%= encodeURIComponent(album.label._id) %>"><%= album.label ? album.label.name : 'N/A' %></a></p>
+            </div>
+        </div>
+        <div class="format-grid">
+            <% formats.forEach(format => { %>
+                <div class="format-card">
+                    <a href="">
+                        <img src="<%= format.image %>" alt="<%= album.title %>">
+                        <div class="format-info">
+                            <p><strong>Album:</strong> <%= album.title %></p>
+                            <p><strong>Format:</strong> <%= format.format %></p>
+                            <p><strong>Price:</strong> <%= format.price_formatted %> EUR</p>
+                            <p><strong>Stock:</strong> <%= format.stock %></p>
+                            <p><strong>Barcode:</strong> <%= format.barcode %></p>
+                        </div>
+                    </a>
+                </div>
+            <% }) %>
         </div>
     </div>
 </body>

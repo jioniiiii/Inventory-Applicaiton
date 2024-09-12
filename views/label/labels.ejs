@@ -19,6 +19,9 @@
                 <% labels.forEach(label => { %>
                     <div class="label-card">
                         <a href="/label/<%= encodeURIComponent(label._id) %>">
+                            <% if (label.image) { %>
+                                <img src="<%= label.image %>" alt="<%= label.title %>">
+                              <% } %>
                             <h2><%= label.name %></h2>
                         </a>
                     </div>

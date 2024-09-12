@@ -13,6 +13,8 @@
     --input-border-color: #ddd;
 }
 
+/**{border: solid green;}*/
+
 /* Global styles */
 body {
     font-family: Arial, sans-serif;
@@ -48,7 +50,7 @@ a {
 }
 
 /* Album and artist cards */
-.album-card, .artist-card, .genre-card, .label-card {
+.album-card, .artist-card, .genre-card, .label-card, .format-card {
     background: var(--card-bg-color);
     border-radius: 10px;
     box-shadow: 0 4px 8px var(--card-shadow);
@@ -58,12 +60,12 @@ a {
     position: relative;
 }
 
-.album-card:hover, .artist-card:hover, .genre-card:hover, .label-card:hover {
+.album-card:hover, .artist-card:hover, .genre-card:hover, .label-card:hover, .format-card:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 10px var(--card-shadow-hover);
 }
 
-.album-card img, .artist-card img, .genre-card img, .label-card img {
+.album-card img, .artist-card img, .genre-card img, .label-card img, .format-card img {
     width: 100%;
     height: 200px;
     object-fit: cover;
@@ -80,7 +82,7 @@ a {
     padding: 10px;
 }
 
-.album-info, h2, .album-info {
+.album-info, h2, .album-info, h3 {
     white-space: nowrap; 
     overflow: hidden; 
     text-overflow: ellipsis; 
@@ -111,7 +113,7 @@ a {
 }
 
 /* Grid layouts */
-.albums-grid, .artist-grid, .grid-container, .label-grid {
+.albums-grid, .artist-grid, .grid-container, .label-grid, .format-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
@@ -164,6 +166,7 @@ ul {
 
 .nav-links {
     list-style: none;
+    pointer-events: none;
     gap: 20px;
     z-index: 2;
     display: flex;
@@ -184,6 +187,7 @@ ul {
 
 .nav-links.active {
     opacity: 1;
+    pointer-events: all;
     transform: translateY(0);
 }
 
@@ -246,6 +250,50 @@ ul {
 
 .navbar-mobile {
     display: none;
+}
+
+/* Artist albums */
+.artist-cont, .album-cont {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.artist-cont > .artist-card, .album-cont > .album-card {
+    height: 200px;
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.artist-cont > .artist-card > .artist-img, .album-cont > .album-card > .album-img{
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.artist-cont > .albums-grid, .album-cont > .format-grid {
+    width: 98%;
+    margin-top: 3rem;
+}
+
+.artist-cont > .albums-grid > .album-card, .album-cont > .format-grid > .format-card{
+    max-height: 350px;
+}
+
+/* Album info */
+.album-info a {
+    color: inherit; 
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease; 
+}
+
+.album-info a:hover {
+    color: grey; 
+    transform: scale(1.05); 
 }
 
 @media (max-width: 768px) {

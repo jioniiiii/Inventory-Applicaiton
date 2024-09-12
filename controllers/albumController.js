@@ -2,6 +2,7 @@ const Artist = require('../models/Artist');
 const Album = require('../models/Album');
 const Genre = require('../models/Genre');
 const Label = require('../models/Label');
+const Format = require('../models/Format');
 
 //all ablums
 exports.getAllAlbums = async (req, res) => {
@@ -33,19 +34,21 @@ exports.getFeturedAlbums = async (req, res) => {//put some albums not all mabe n
   }
 }
 
-//for one album 
+//for one album with its format
 exports.getAlbum = async (req, res) => {
   try {
-    const singleAlbum = await Album.findOne({ title: req.params.title })
+    const album = await Album.findOne({ title: req.params.title })
       .populate('artist', 'first_name last_name')
       .populate('genre', 'name')
       .populate('label', 'name')
 
-    if(!singleAlbum) {
+    if(!album) {
       return res.status(404).send('Album nto found');
     }
 
-    res.render('./album/album', { album: singleAlbum });
+    const formats = await Format.find({ album: album._id });//for format
+
+    res.render('./album/album', { album, formats });
   } catch (error) {
     console.error('Error fetching album:', error);
     res.status(500).send('Internal Server Error');
