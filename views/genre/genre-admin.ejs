@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Genres</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <%- include('../partials/nav') %>
+    <div class="container">
+        <h1>Edit Genres</h1>
+        <form action="/genre/add" method="POST">
+            <div class="form-group">
+            <label for="name">Genre Name:</label>
+            <input type="text" id="name" name="name" required placeholder="Enter genre name">
+            </div>
+            <button type="submit" class="btn btn-primary">Add Genre</button>
+        </form>
+    </div>
+    <div class="container">
+        <div class="grid-container">
+            <% genres.forEach(genre => { %>
+                <div class="genre-card">
+                   <h2><%= genre.name %></h2>
+                   <form action="/genre/delete" method="POST" style="display: inline;">
+                        <input type="hidden" name="name" value="<%= genre.name %>">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <form action="/genre/edit" method="POST" style="display: inline;">
+                        <input type="hidden" name="oldName" value="<%= genre.name %>">
+                        <input type="text" name="newName" value="<%= genre.name %>" required placeholder="New genre name">
+                        <button type="submit" class="btn btn-warning">Edit</button>
+                    </form>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</body>
+</html>

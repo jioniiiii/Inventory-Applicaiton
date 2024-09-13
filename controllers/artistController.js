@@ -27,4 +27,4 @@ exports.getArtistAlbums = async (req, res) => {
     console.error('Error fetching artists albums:', error);
     res.status(500).send('Internal Server Error');
   }
-}
+};

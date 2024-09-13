@@ -7,17 +7,15 @@ require('dotenv').config();
 
 const app = express();
 app.set('view engine', 'ejs');
-app.set('views',path.join(__dirname+'/views'));
-
+app.set('views',path.join(__dirname, 'views'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 const mongoDB = process.env.MONGODB_URI;
 mongoose.connect(mongoDB)
   .then(() => console.log('MongoDB connected successfully'))
   .catch(err => console.error('Error connecting to MongoDB:', err));
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', router);
 

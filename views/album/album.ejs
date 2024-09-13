@@ -21,7 +21,7 @@
                 <p><strong>Label:</strong> <a href="/label/<%= encodeURIComponent(album.label._id) %>"><%= album.label ? album.label.name : 'N/A' %></a></p>
             </div>
         </div>
-        <div class="format-grid">
+        <div class="format-grid"> <!-- for format --> 
             <% formats.forEach(format => { %>
                 <div class="format-card">
                     <a href="">

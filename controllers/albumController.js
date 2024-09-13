@@ -32,7 +32,7 @@ exports.getFeturedAlbums = async (req, res) => {//put some albums not all mabe n
     console.error('Error fetching featured albums:', error);
     res.status(500).send('Internal Server Error');
   }
-}
+};
 
 //for one album with its format
 exports.getAlbum = async (req, res) => {
@@ -53,4 +53,4 @@ exports.getAlbum = async (req, res) => {
     console.error('Error fetching album:', error);
     res.status(500).send('Internal Server Error');
   }
-}
+};

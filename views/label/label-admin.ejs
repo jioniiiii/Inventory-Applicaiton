@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Manage Labels</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <%- include('../partials/nav') %>
+  <div class="container">
+    <h1>Manage Labels</h1>
+
+    <form action="/label/add" method="POST">
+      <div class="form-group">
+        <label for="name">Label Name:</label>
+        <input type="text" id="name" name="name" required placeholder="Enter label name">
+      </div>
+      <div class="form-group">
+        <label for="founded">Founded Year:</label>
+        <input type="number" id="founded" name="founded" placeholder="Enter founded year">
+      </div>
+      <div class="form-group">
+        <label for="image">Image URL:</label>
+        <input type="text" id="image" name="image" placeholder="Enter image URL">
+      </div>
+      <button type="submit" class="btn btn-primary">Add Label</button>
+    </form>
+
+    <div class="grid-container">
+      <% labels.forEach(label => { %>
+        <div class="label-card">
+          <h2><%= label.name %></h2>
+          <p>Founded: <%= label.founded %></p>
+          <img src="<%= label.image %>" alt="<%= label.name %> Image" style="max-width: 100px;">
+
+          <form action="/label/delete" method="POST" style="display: inline;">
+            <input type="hidden" name="name" value="<%= label.name %>">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+
+          <form action="/label/edit" method="POST" style="display: inline;">
+            <input type="hidden" name="id" value="<%= label._id %>">
+            <div class="form-group">
+              <label for="name_<%= label._id %>">Name:</label>
+              <input type="text" id="name_<%= label._id %>" name="name" value="<%= label.name %>">
+            </div>
+            <div class="form-group">
+              <label for="founded_<%= label._id %>">Founded Year:</label>
+              <input type="number" id="founded_<%= label._id %>" name="founded" value="<%= label.founded %>">
+            </div>
+            <div class="form-group">
+              <label for="image_<%= label._id %>">Image URL:</label>
+              <input type="text" id="image_<%= label._id %>" name="image" value="<%= label.image %>">
+            </div>
+            <button type="submit" class="btn btn-warning">Edit</button>
+          </form>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</body>
+</html>
