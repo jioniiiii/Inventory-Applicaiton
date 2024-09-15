@@ -22,15 +22,12 @@
                         <img src="<%= album.image %>" alt="<%= album.title %>">
                         <div class="album-info">
                             <h2><%= album.title %></h2>
-                            <p><strong>Artist:</strong> <%= album.artist.name %></p>
+                            <p><strong>Artist:</strong> <%= album.artist && album.artist.name ? album.artist.name : 'N/A' %></p>
                         </div>
                     </a>
                 </div>
             <% }) %>
         </div>
-
-        <h1>ADD HOT DEALS WITH NEW ALBUMS</h1>
-
     </div>
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>

@@ -23,8 +23,8 @@
             <% genres.forEach(genre => { %>
                 <div class="genre-card">
                    <h2><%= genre.name %></h2>
-                   <form action="/genre/delete" method="POST" style="display: inline;">
-                        <input type="hidden" name="name" value="<%= genre.name %>">
+                   <form action="/genre/delete" method="POST">
+                        <input type="hidden" name="id" value="<%= genre._id %>">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                     <form action="/genre/edit" method="POST" style="display: inline;">

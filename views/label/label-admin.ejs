@@ -35,7 +35,7 @@
           <img src="<%= label.image %>" alt="<%= label.name %> Image" style="max-width: 100px;">
 
           <form action="/label/delete" method="POST" style="display: inline;">
-            <input type="hidden" name="name" value="<%= label.name %>">
+            <input type="hidden" name="id" value="<%= label._id %>">
             <button type="submit" class="btn btn-danger">Delete</button>
           </form>
 

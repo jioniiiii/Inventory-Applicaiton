@@ -21,15 +21,18 @@
               <img src="<%= album.image %>" alt="<%= album.title %>">
             <% } %>
             <div class="album-info">
-              <h2><%= album.title %></h2>
-              <p><strong>Released:</strong> <%= album.release_date.toDateString() %></p>
-              <p><strong>Artist:</strong> <%= album.artist.name %></p>
-              <p><strong>Genre:</strong> <%= album.genre ? album.genre.name : 'N/A' %></p>
-              <p><strong>Label:</strong> <%= album.label ? album.label.name : 'N/A' %></p>
+              <h2><%= album.title %></h2><!-- error handling for delteting linked things and not crashing-->
+              <p><strong>Released:</strong> <%= album.release_date ? new Date(album.release_date).toDateString() : 'N/A' %></p>
+              <p><strong>Artist:</strong> <%= album.artist && album.artist.name ? album.artist.name : 'N/A' %></p>
+              <p><strong>Genre:</strong> <%= album.genre && album.genre.name ? album.genre.name : 'N/A' %></p>
+              <p><strong>Label:</strong> <%= album.label && album.label.name ? album.label.name : 'N/A' %></p>
             </div>
         </div>
       </a>
     <% }) %>
+    <div class="album-card">
+      <a href="/album/album-admin"><h2>Edit</h2></a>
+    </div>
   </div>
 </body>
 </html>

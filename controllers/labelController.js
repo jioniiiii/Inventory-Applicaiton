@@ -60,15 +60,15 @@ exports.createLabel = async (req, res) => {
 
 //delete
 exports.deleteLabel = async (req, res) => {
-  const { name, founded, image } = req.body; 
-
+  const { id } = req.body; 
+  
   try {
-    const result = await Label.findOneAndDelete({ name });
-
+    const result = await Label.findByIdAndDelete(id);
+    
     if (!result) {
       return res.status(404).send('Label not found');
     }
-
+    
     res.redirect('label-admin');
   } catch (error) {
     console.error('Error deleting label:', error);

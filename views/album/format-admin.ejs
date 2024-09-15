@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Manage Formats</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <%- include('../partials/nav') %>
+
+  <div class="container">
+    <h1>Manage Formats for <%= album.title %></h1>
+
+    <!-- add form -->
+    <form action="/format/add" method="POST">
+      <input type="hidden" name="album" value="<%= album._id %>">
+      <div class="form-group">
+        <label for="format">Format Type:</label>
+        <select id="format" name="format" required>
+          <option value="">Select Format</option>
+          <option value="Vinyl">Vinyl</option>
+          <option value="CD">CD</option>
+          <option value="Cassette">Cassette</option>
+          <option value="Digital">Digital</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required placeholder="Enter price">
+      </div>
+      <div class="form-group">
+        <label for="stock">Stock:</label>
+        <input type="number" id="stock" name="stock" required placeholder="Enter stock">
+      </div>
+      <div class="form-group">
+        <label for="barcode">Barcode:</label>
+        <input type="text" id="barcode" name="barcode" required placeholder="Enter barcode">
+      </div>
+      <div class="form-group">
+        <label for="image">Image URL:</label>
+        <input type="text" id="image" name="image" placeholder="Enter image URL">
+      </div>
+      <button type="submit" class="btn btn-primary">Add Format</button>
+    </form>
+
+    <% if (formats.length > 0) { %>
+      <div class="grid-container">
+        <% formats.forEach(format => { %>
+          <div class="format-card">
+            <h3><%= format.format %></h3>
+            <p><strong>Price:</strong> <%= format.price_formatted %> EUR</p>
+            <p><strong>Stock:</strong> <%= format.stock %></p>
+            <p><strong>Barcode:</strong> <%= format.barcode %></p>
+            <img src="<%= format.image %>" alt="<%= format.format %>" style="max-width: 100px;">
+            
+            <!-- edit form -->
+            <form action="/format/edit" method="POST" style="display: inline;">
+              <input type="hidden" name="id" value="<%= format._id %>">
+              <input type="hidden" name="album" value="<%= album._id %>">
+              <div class="form-group">
+                <label for="format_<%= format._id %>">Format Type:</label>
+                <select id="format_<%= format._id %>" name="format" required>
+                  <option value="Vinyl" <%= format.format === 'Vinyl' ? 'selected' : '' %>>Vinyl</option>
+                  <option value="CD" <%= format.format === 'CD' ? 'selected' : '' %>>CD</option>
+                  <option value="Cassette" <%= format.format === 'Cassette' ? 'selected' : '' %>>Cassette</option>
+                  <option value="Digital" <%= format.format === 'Digital' ? 'selected' : '' %>>Digital</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="price_<%= format._id %>">Price:</label>
+                <input type="number" id="price_<%= format._id %>" name="price" value="<%= format.price %>">
+              </div>
+              <div class="form-group">
+                <label for="stock_<%= format._id %>">Stock:</label>
+                <input type="number" id="stock_<%= format._id %>" name="stock" value="<%= format.stock %>">
+              </div>
+              <div class="form-group">
+                <label for="barcode_<%= format._id %>">Barcode:</label>
+                <input type="text" id="barcode_<%= format._id %>" name="barcode" value="<%= format.barcode %>">
+              </div>
+              <div class="form-group">
+                <label for="image_<%= format._id %>">Image URL:</label>
+                <input type="text" id="image_<%= format._id %>" name="image" value="<%= format.image %>">
+              </div>
+              <button type="submit" class="btn btn-warning">Edit Format</button>
+            </form>
+
+            <!-- delete form -->
+            <form action="/format/delete" method="POST" style="display: inline;">
+              <input type="hidden" name="formatId" value="<%= format._id %>">
+              <input type="hidden" name="albumId" value="<%= album._id %>">
+              <button type="submit" class="btn btn-danger">Delete Format</button>
+            </form>
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <p>No formats found for this album.</p>
+    <% } %>
+  </div>
+</body>
+</html>

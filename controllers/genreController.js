@@ -59,15 +59,11 @@ exports.createGenre = async (req, res) => {
 
 //delete
 exports.deleteGenre = async (req, res) => {
-  const { name } = req.body; 
+  const { id } = req.body; 
   
   try {
-    if (!name) {
-      return res.status(400).send('Invalid genre name');
-    }
+    const result = await Genre.findByIdAndDelete(id);
 
-    const result = await Genre.findOneAndDelete({ name });
-    
     if (!result) {
       return res.status(404).send('Genre not found');
     }

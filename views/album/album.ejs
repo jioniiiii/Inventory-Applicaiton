@@ -15,10 +15,40 @@
             </div>
             <div class="album-info">
                 <h3><%= album.title %></h3>
-                <p><strong>Released:</strong> <%= album.release_date.toDateString() %></p>
-                <p><strong>Artist:</strong> <a href="/artist/<%= encodeURIComponent(album.artist._id) %>"><%= album.artist.name %></a></p>
-                <p><strong>Genre:</strong> <a href="/genre/<%= encodeURIComponent(album.genre._id) %>"><%= album.genre ? album.genre.name : 'N/A' %></a></p>
-                <p><strong>Label:</strong> <a href="/label/<%= encodeURIComponent(album.label._id) %>"><%= album.label ? album.label.name : 'N/A' %></a></p>
+                <p>
+                    <strong>Released:</strong>
+                    <%= album.release_date ? album.release_date.toDateString() : 'N/A' %>
+                  </p>
+                  <p><!-- error handling for delteting linked things and not crashing-->
+                    <strong>Artist:</strong>
+                    <% if (album.artist) { %>
+                      <a href="/artist/<%= encodeURIComponent(album.artist._id) %>">
+                        <%= album.artist.name || 'Unknown Artist' %>
+                      </a>
+                    <% } else { %>
+                      Unknown Artist
+                    <% } %>
+                  </p>
+                  <p>
+                    <strong>Genre:</strong>
+                    <% if (album.genre) { %>
+                      <a href="/genre/<%= encodeURIComponent(album.genre._id) %>">
+                        <%= album.genre.name || 'Unknown Genre' %>
+                      </a>
+                    <% } else { %>
+                      N/A
+                    <% } %>
+                  </p>
+                  <p>
+                    <strong>Label:</strong>
+                    <% if (album.label) { %>
+                      <a href="/label/<%= encodeURIComponent(album.label._id) %>">
+                        <%= album.label.name || 'Unknown Label' %>
+                      </a>
+                    <% } else { %>
+                      N/A
+                    <% } %>
+                  </p>
             </div>
         </div>
         <div class="format-grid"> <!-- for format --> 
