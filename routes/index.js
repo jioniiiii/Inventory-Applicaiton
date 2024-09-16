@@ -4,42 +4,53 @@ const albumController = require('../controllers/albumController');
 const labelController = require('../controllers/labelController');
 const genreController = require('../controllers/genreController');
 const artistController = require('../controllers/artistController');
-const formatController = require('../controllers/formatController')
+const formatController = require('../controllers/formatController');
+const adminAuth = require('../middleware/adminAuth');
 
-//for nav 
-router.get('/', albumController.getFeturedAlbums);
+//public routes
+router.get('/', albumController.getFeaturedAlbums);
 router.get('/albums', albumController.getAllAlbums);
 router.get('/genres', genreController.getAllGenres);
 router.get('/labels', labelController.getAllLabels);
 router.get('/artists', artistController.getAllArtists);
 
-//for admin(crud) 
-router.get('/genre/genre-admin', genreController.renderAdmin);
-router.post('/genre/add', genreController.createGenre);
-router.post('/genre/delete', genreController.deleteGenre);
-router.post('/genre/edit', genreController.editGenre);
+//admin routes
+const adminRoutes = [
+    { path: '/genre/genre-admin', controller: genreController.renderAdmin },
+    { path: '/label/label-admin', controller: labelController.renderAdmin },
+    { path: '/artist/artist-admin', controller: artistController.renderAdmin },
+    { path: '/album/album-admin', controller: albumController.renderAdmin },
+];
 
-router.get('/label/label-admin', labelController.renderAdmin);
-router.post('/label/add', labelController.createLabel);
-router.post('/label/delete', labelController.deleteLabel);
-router.post('/label/edit', labelController.editLabel);
+adminRoutes.forEach(route => {
+    router.get(route.path, adminAuth, route.controller);
+    router.post(route.path, adminAuth, route.controller);
+});
 
-router.get('/artist/artist-admin', artistController.renderAdmin);
-router.post('/artist/add', artistController.createArtist);
-router.post('/artist/delete', artistController.deleteArtist);
-router.post('/artist/edit', artistController.editArtist);
+//crud routes
+const crudRoutes = [
+    { path: '/genre/add', controller: genreController.createGenre },
+    { path: '/genre/delete', controller: genreController.deleteGenre },
+    { path: '/genre/edit', controller: genreController.editGenre },
+    { path: '/label/add', controller: labelController.createLabel },
+    { path: '/label/delete', controller: labelController.deleteLabel },
+    { path: '/label/edit', controller: labelController.editLabel },
+    { path: '/artist/add', controller: artistController.createArtist },
+    { path: '/artist/delete', controller: artistController.deleteArtist },
+    { path: '/artist/edit', controller: artistController.editArtist },
+    { path: '/album/add', controller: albumController.createAlbum },
+    { path: '/album/delete', controller: albumController.deleteAlbum },
+    { path: '/album/edit', controller: albumController.editAlbum },
+    { path: '/format/add', controller: formatController.createFormat },
+    { path: '/format/edit', controller: formatController.editFormat },
+    { path: '/format/delete', controller: formatController.deleteFormat },
+];
 
-router.get('/album/album-admin', albumController.renderAdmin);
-router.post('/album/add', albumController.createAlbum);
-router.post('/album/delete', albumController.deleteAlbum);
-router.post('/album/edit', albumController.editAlbum);
+crudRoutes.forEach(route => {
+    router.post(route.path, route.controller);
+});
 
-router.get('/album/format-admin/:albumId', formatController.renderAdmin);
-router.post('/format/add', formatController.createFormat);
-router.post('/format/edit', formatController.editFormat);
-router.post('/format/delete', formatController.deleteFormat);
-
-//for linking every title and card to the album 
+//linking to specific item
 router.get('/album/:title', albumController.getAlbum);
 router.get('/label/:id', labelController.getLabelsAlbums);
 router.get('/genre/:id', genreController.getGenreAlbums);

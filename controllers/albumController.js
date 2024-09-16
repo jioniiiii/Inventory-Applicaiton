@@ -20,7 +20,7 @@ exports.getAllAlbums = async (req, res) => {
 };
 
 //for some albums
-exports.getFeturedAlbums = async (req, res) => {//put some albums not all mabe new releases
+exports.getFeaturedAlbums = async (req, res) => {//put some albums not all mabe new releases
   try {
       const featuredAlbums = await Album.find()
         .populate('artist', 'first_name last_name')

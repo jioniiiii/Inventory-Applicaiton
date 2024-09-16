@@ -30,9 +30,10 @@
                 <p>No labels found.</p>
             <% } %>
             <div class="label-card">
-                <a href="/label/label-admin"><h2>Edit</h2></a>
+                <a href="javascript:void(0)" onclick="openPasswordModal()"><h2>Edit</h2></a>
             </div>
         </div>
     </div>
+    <%- include('../partials/admin-modal', { actionUrl: '/label/label-admin' }) %>
 </body>
 </html>

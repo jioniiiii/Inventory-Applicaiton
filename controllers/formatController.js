@@ -8,10 +8,7 @@ exports.renderAdmin = async (req, res) => {
     const formats = await Format.find({album: albumId});
     const album = await Album.findById(albumId);
 
-    console.log('1');
-
     res.render('./album/format-admin', { formats, album });
-    console.log('2');
   } catch (error) {
     console.error('Error fetching formats:', error);
     res.status(500).send('Internal Server Error');
@@ -24,7 +21,7 @@ exports.createFormat = async (req, res) => {
 
   try {
     if (!album || !format || !price || !stock || !barcode) {
-        console.log("error create");
+      return res.status(400).send('All fields are required');
     }
 
     const newFormat = new Format({
@@ -59,7 +56,7 @@ exports.editFormat = async (req, res) => {
     const result = await Format.findByIdAndUpdate(id, updatedFields, { new: true });
 
     if (!result) {
-        console.log(result);
+      return res.status(404).send('Format not found');
     }
 
     res.redirect(`/album/format-admin/${result.album}`);
@@ -76,7 +73,10 @@ exports.deleteFormat = async (req, res) => {
   try {
     const result = await Format.findByIdAndDelete(formatId);
 
-    console.log(result);
+    if (!result) {
+      return res.status(404).send('Format not found'); 
+    }
+
     res.redirect(`/album/format-admin/${albumId}`);
   } catch (error) {
     console.log(result);

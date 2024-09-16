@@ -1,8 +1,8 @@
-const Artist = require('../models/Artist');
 const Album = require('../models/Album');
 const Genre = require('../models/Genre');
-const Label = require('../models/Label');
+const adminAuth = require('../middleware/adminAuth');
 
+//get all genres
 exports.getAllGenres = async (req, res) => {
     try {
       const genres = await Genre.find()
@@ -13,10 +13,10 @@ exports.getAllGenres = async (req, res) => {
     }
 };
 
+//get abums for specific genre
 exports.getGenreAlbums = async (req, res) => {
   try {
     const genre = await Genre.findById(req.params.id);
-
     const albums = await Album.find({ genre: genre._id })
       .populate('artist', 'first_name last_name')
       .populate('genre', 'name');
@@ -67,7 +67,6 @@ exports.deleteGenre = async (req, res) => {
     if (!result) {
       return res.status(404).send('Genre not found');
     }
-
     res.redirect('genre-admin');
   } catch (error) {
     console.error('Error deleting genre:', error);

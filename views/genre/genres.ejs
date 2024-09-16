@@ -21,9 +21,10 @@
                 </div>
             <% }) %>
             <div class="genre-card">
-               <a href="/genre/genre-admin"><h2>Edit</h2></a>
+               <a href="javascript:void(0)" onclick="openPasswordModal()"><h2>Edit</h2></a>
             </div>
         </div>
     </div>
+    <%- include('../partials/admin-modal', { actionUrl: '/genre/genre-admin' }) %>
 </body>
 </html>
