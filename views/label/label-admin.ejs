@@ -8,56 +8,81 @@
 </head>
 <body>
   <%- include('../partials/nav') %>
-  <div class="container">
-    <h1>Manage Labels</h1>
-
-    <form action="/label/add" method="POST">
-      <div class="form-group">
-        <label for="name">Label Name:</label>
-        <input type="text" id="name" name="name" required placeholder="Enter label name">
+  <h1 style="text-align: center;">Manage Labels</h1>
+    <div class="add-conteiner">
+      <div class="add-card">
+        <h1 id="toggleFormBtn">+</h1>
       </div>
-      <div class="form-group">
-        <label for="founded">Founded Year:</label>
-        <input type="number" id="founded" name="founded" placeholder="Enter founded year">
+
+      <div id="formModal" class="form-modal">
+        <form action="/label/add" method="POST">
+          <div class="form-group">
+            <label for="name">Label Name:</label>
+            <input type="text" id="name" name="name" required placeholder="Enter label name">
+          </div>
+          <div class="form-group">
+            <label for="founded">Founded:</label>
+            <input type="number" id="founded" name="founded" placeholder="Enter founded year">
+          </div>
+          <div class="form-group">
+            <label for="image">Image URL:</label>
+            <input type="text" id="image" name="image" placeholder="Enter image URL">
+          </div>
+          <button type="submit" class="btn btn-primary">Add Label</button>
+          <button type="button" class="btn btn-secondary" onclick="closeForm()">Cancel</button>
+        </form>
       </div>
-      <div class="form-group">
-        <label for="image">Image URL:</label>
-        <input type="text" id="image" name="image" placeholder="Enter image URL">
-      </div>
-      <button type="submit" class="btn btn-primary">Add Label</button>
-    </form>
-
-    <div class="grid-container">
-      <% labels.forEach(label => { %>
-        <div class="label-card">
-          <h2><%= label.name %></h2>
-          <p>Founded: <%= label.founded %></p>
-          <img src="<%= label.image %>" alt="<%= label.name %> Image" style="max-width: 100px;">
-
-          <form action="/label/delete" method="POST" style="display: inline;">
-            <input type="hidden" name="id" value="<%= label._id %>">
-            <button type="submit" class="btn btn-danger">Delete</button>
-          </form>
-
-          <form action="/label/edit" method="POST" style="display: inline;">
-            <input type="hidden" name="id" value="<%= label._id %>">
-            <div class="form-group">
-              <label for="name_<%= label._id %>">Name:</label>
-              <input type="text" id="name_<%= label._id %>" name="name" value="<%= label.name %>">
-            </div>
-            <div class="form-group">
-              <label for="founded_<%= label._id %>">Founded Year:</label>
-              <input type="number" id="founded_<%= label._id %>" name="founded" value="<%= label.founded %>">
-            </div>
-            <div class="form-group">
-              <label for="image_<%= label._id %>">Image URL:</label>
-              <input type="text" id="image_<%= label._id %>" name="image" value="<%= label.image %>">
-            </div>
-            <button type="submit" class="btn btn-warning">Edit</button>
-          </form>
-        </div>
-      <% }) %>
     </div>
-  </div>
+
+    <div class="container">
+      <div class="grid-container">
+        <% labels.forEach(label => { %>
+          <div class="form-modal-container">
+            <div class="label-card">
+              <img src="<%= label.image %>" alt="<%= label.name %>">
+              <h2><%= label.name %></h2>
+              <p>Founded: <%= label.founded %></p>
+
+              <!-- Button to open delete form -->
+              <button onclick="openDeleteModal('<%= label._id %>', '<%= label.name %>')" class="btn btn-danger">Delete</button>
+              <!-- Button to open edit form -->
+              <button onclick="openEditModal('<%= label._id %>', '<%= label.name %>')" class="btn btn-warning">Edit</button>
+            </div>
+
+            <!-- Delete form modal -->
+            <div id="deleteModal_<%= label._id %>" class="form-modal">
+              <form action="/label/delete" method="POST">
+                  <input type="hidden" name="id" value="<%= label._id %>">
+                  <p>Are you sure you want to delete <%= label.name %>?</p>
+                  <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                  <button type="button" onclick="closeDeleteModal('<%= label._id %>')" class="btn btn-secondary">Cancel</button>
+              </form>
+            </div>
+
+            <!-- Edit form modal -->
+            <div id="editModal_<%= label._id %>" class="form-modal">
+              <form action="/label/edit" method="POST">
+                <input type="hidden" name="id" value="<%= label._id %>">
+                <div class="form-group">
+                  <label for="name_<%= label._id %>">Name:</label>
+                  <input type="text" id="name_<%= label._id %>" name="name" value="<%= label.name %>">
+                </div>
+                <div class="form-group">
+                  <label for="founded_<%= label._id %>">Founded Year:</label>
+                  <input type="number" id="founded_<%= label._id %>" name="founded" value="<%= label.founded %>">
+                </div>
+                <div class="form-group">
+                  <label for="image_<%= label._id %>">Image URL:</label>
+                  <input type="text" id="image_<%= label._id %>" name="image" value="<%= label.image %>">
+                </div>
+                <button type="submit" class="btn btn-warning">Confirm Edit</button>
+                <button type="button" onclick="closeEditModal('<%= label._id %>')" class="btn btn-secondary">Cancel</button>
+              </form>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+    <script src="/js/scripts.js"></script>
 </body>
 </html>

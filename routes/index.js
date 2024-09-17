@@ -6,6 +6,7 @@ const genreController = require('../controllers/genreController');
 const artistController = require('../controllers/artistController');
 const formatController = require('../controllers/formatController');
 const adminAuth = require('../middleware/adminAuth');
+const searchController = require('../controllers/searchController');
 
 //public routes
 router.get('/', albumController.getFeaturedAlbums);
@@ -13,6 +14,7 @@ router.get('/albums', albumController.getAllAlbums);
 router.get('/genres', genreController.getAllGenres);
 router.get('/labels', labelController.getAllLabels);
 router.get('/artists', artistController.getAllArtists);
+router.get('/search', searchController.search);
 
 //admin routes
 const adminRoutes = [
@@ -55,5 +57,6 @@ router.get('/album/:title', albumController.getAlbum);
 router.get('/label/:id', labelController.getLabelsAlbums);
 router.get('/genre/:id', genreController.getGenreAlbums);
 router.get('/artist/:id', artistController.getArtistAlbums);
+router.get('/album/format-admin/:albumId', formatController.renderAdmin);
 
 module.exports = router;

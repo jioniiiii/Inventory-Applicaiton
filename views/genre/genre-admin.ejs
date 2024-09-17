@@ -8,33 +8,56 @@
 </head>
 <body>
     <%- include('../partials/nav') %>
-    <div class="container">
-        <h1>Edit Genres</h1>
-        <form action="/genre/add" method="POST">
-            <div class="form-group">
-            <label for="name">Genre Name:</label>
-            <input type="text" id="name" name="name" required placeholder="Enter genre name">
-            </div>
-            <button type="submit" class="btn btn-primary">Add Genre</button>
-        </form>
+    <h1 style="text-align: center;">Manage Genres</h1>
+    <div class="add-conteiner">
+        <div class="add-card">
+            <h1 id="toggleFormBtn">+</h1>
+        </div>
+        <div id="formModal" class="form-modal">
+            <form action="/genre/add" method="POST">
+                <div class="form-group">
+                    <label for="name">Genre Name:</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter genre name">
+                </div>
+                <button type="submit" class="btn btn-primary">Add Genre</button>
+                <button type="button" class="btn btn-secondary" onclick="closeForm()">Cancel</button>
+            </form>
+        </div>
     </div>
     <div class="container">
         <div class="grid-container">
             <% genres.forEach(genre => { %>
-                <div class="genre-card">
-                   <h2><%= genre.name %></h2>
-                   <form action="/genre/delete" method="POST">
-                        <input type="hidden" name="id" value="<%= genre._id %>">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                    <form action="/genre/edit" method="POST" style="display: inline;">
-                        <input type="hidden" name="oldName" value="<%= genre.name %>">
-                        <input type="text" name="newName" value="<%= genre.name %>" required placeholder="New genre name">
-                        <button type="submit" class="btn btn-warning">Edit</button>
-                    </form>
+                <div class="form-modal-container">
+                    <div class="genre-card">
+                       <h2><%= genre.name %></h2>
+                       <!-- Button to open delete form -->
+                       <button onclick="openDeleteModal('<%= genre._id %>', '<%= genre.name %>')" class="btn btn-danger">Delete</button>
+                       <!-- Button to open edit form -->
+                       <button onclick="openEditModal('<%= genre._id %>', '<%= genre.name %>')" class="btn btn-warning">Edit</button>
+                    </div>
+                    <!-- Delete form modal -->
+                    <div id="deleteModal_<%= genre._id %>" class="form-modal">
+                        <form action="/genre/delete" method="POST">
+                            <input type="hidden" name="id" value="<%= genre._id %>">
+                            <p>Are you sure you want to delete <%= genre.name %>?</p>
+                            <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                            <button type="button" onclick="closeDeleteModal('<%= genre._id %>')" class="btn btn-secondary">Cancel</button>
+                        </form>
+                    </div>
+                    <!-- Edit form modal -->
+                    <div id="editModal_<%= genre._id %>" class="form-modal">
+                        <form action="/genre/edit" method="POST">
+                            <input type="hidden" name="oldName" value="<%= genre.name %>">
+                            <label for="newName">New Genre Name:</label>
+                            <input type="text" id="newName" name="newName" value="<%= genre.name %>" required placeholder="New genre name">
+                            <button type="submit" class="btn btn-warning">Confirm Edit</button>
+                            <button type="button" onclick="closeEditModal('<%= genre._id %>')" class="btn btn-secondary">Cancel</button>
+                        </form>
+                    </div>
                 </div>
             <% }) %>
         </div>
     </div>
+    <script src="/js/scripts.js"></script>
 </body>
 </html>

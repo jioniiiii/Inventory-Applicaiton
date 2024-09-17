@@ -19,8 +19,21 @@
                     <img src="<%= album.image %>" alt="<%= album.title %>">
                     <div class="album-info">
                         <h3><%= album.title %></h3>
-                        <p><strong>Artist:</strong> <%= album.artist.first_name %> <%= album.artist.last_name %></p>
-                        <p><strong>Release Date:</strong> <%= album.release_date_formatted %></p>
+                        <p><strong>Artist:</strong> 
+                            <% if (album.artist && album.artist.first_name && album.artist.last_name) { %>
+                                <%= album.artist.first_name %> <%= album.artist.last_name %>
+                            <% } else { %>
+                                <em>Unknown Artist</em>
+                            <% } %>
+                        </p>
+                        
+                        <p><strong>Release Date:</strong> 
+                            <% if (album.release_date_formatted) { %>
+                                <%= album.release_date_formatted %>
+                            <% } else { %>
+                                <em>N/A</em>
+                            <% } %>
+                        </p>
                     </div>
                 </a>
             </div>

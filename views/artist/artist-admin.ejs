@@ -8,90 +8,109 @@
 </head>
 <body>
   <%- include('../partials/nav') %>
+  <h1 style="text-align: center;">Manage Artist</h1>
+  <div class="add-conteiner">
+    <div class="add-card">
+        <h1 id="toggleFormBtn">+</h1>
+    </div>
+    <div id="formModal" class="form-modal">
+        <!-- Add New Artist Form -->
+        <form action="/artist/add" method="POST">
+          <div class="form-group">
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" required placeholder="Enter first name">
+          </div>
+          <div class="form-group">
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" placeholder="Enter last name">
+          </div>
+          <div class="form-group">
+            <label for="birth_date">Birth Date:</label>
+            <input type="date" id="birth_date" name="birth_date">
+          </div>
+          <div class="form-group">
+            <label for="death_date">Death Date:</label>
+            <input type="date" id="death_date" name="death_date">
+          </div>
+          <div class="form-group">
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country" placeholder="Enter country">
+          </div>
+          <div class="form-group">
+            <label for="image">Image URL:</label>
+            <input type="text" id="image" name="image" placeholder="Enter image URL">
+          </div>
+          <button type="submit" class="btn btn-primary">Add Genre</button>
+          <button type="button" class="btn btn-secondary" onclick="closeForm()">Cancel</button>
+        </form>
+    </div>
+  </div>
+
+
+    
   <div class="container">
-    <h1>Manage Artists</h1>
-
-    <!-- Add New Artist Form -->
-    <form action="/artist/add" method="POST">
-      <div class="form-group">
-        <label for="first_name">First Name:</label>
-        <input type="text" id="first_name" name="first_name" required placeholder="Enter first name">
-      </div>
-      <div class="form-group">
-        <label for="last_name">Last Name:</label>
-        <input type="text" id="last_name" name="last_name" placeholder="Enter last name">
-      </div>
-      <div class="form-group">
-        <label for="birth_date">Birth Date:</label>
-        <input type="date" id="birth_date" name="birth_date">
-      </div>
-      <div class="form-group">
-        <label for="death_date">Death Date:</label>
-        <input type="date" id="death_date" name="death_date">
-      </div>
-      <div class="form-group">
-        <label for="country">Country:</label>
-        <input type="text" id="country" name="country" placeholder="Enter country">
-      </div>
-      <div class="form-group">
-        <label for="image">Image URL:</label>
-        <input type="text" id="image" name="image" placeholder="Enter image URL">
-      </div>
-      <button type="submit" class="btn btn-primary">Add Artist</button>
-    </form>
-
-    <!-- artists list -->
     <div class="grid-container">
       <% artists.forEach(artist => { %>
-        <div class="artist-card">
-          <h2><%= artist.first_name %> <%= artist.last_name %></h2>
-          <% if (artist.birth_date) { %>
-            <p>Born: <%= artist.birth_date.toDateString() %></p>
-          <% } %>
-          <% if (artist.death_date) { %>
-            <p>Died: <%= artist.death_date.toDateString() %></p>
-          <% } %>
-          <p>Country: <%= artist.country %></p>
-          <img src="<%= artist.image %>" alt="<%= artist.first_name %> Image" style="max-width: 100px;">
+        <div class="form-modal-container">
+          <div class="artist-card">
+            <img src="<%= artist.image %>" alt="<%= artist.first_name %> Image">
+            <h2><%= artist.first_name %> <%= artist.last_name %></h2>
+            <% if (artist.birth_date) { %>
+              <p>Born: <%= artist.birth_date.toDateString() %></p>
+            <% } %>
+            <p>Country: <%= artist.country %></p>
+            <!-- Button to open delete form -->
+            <button onclick="openDeleteModal('<%= artist._id %>', '<%= artist.name %>')" class="btn btn-danger">Delete</button>
+            <!-- Button to open edit form -->
+            <button onclick="openEditModal('<%= artist._id %>', '<%= artist.name %>')" class="btn btn-warning">Edit</button>
+          </div>  
 
-          <!-- delete form -->
-          <form action="/artist/delete" method="POST" style="display: inline;">
-            <input type="hidden" name="id" value="<%= artist._id %>">
-            <button type="submit" class="btn btn-danger">Delete</button>
-          </form>
+          <!-- Delete form -->
+          <div id="deleteModal_<%= artist._id %>" class="form-modal">
+            <form action="/artist/delete" method="POST">
+              <input type="hidden" name="id" value="<%= artist._id %>">
+                <p>Are you sure you want to delete <%= artist.name %>?</p>
+                <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                <button type="button" onclick="closeDeleteModal('<%= artist._id %>')" class="btn btn-secondary">Cancel</button>
+              </form>
+          </div>
 
-          <!-- edit form -->
-          <form action="/artist/edit" method="POST" style="display: inline;">
-            <input type="hidden" name="id" value="<%= artist._id %>">
-            <div class="form-group">
-              <label for="first_name_<%= artist._id %>">First Name:</label>
-              <input type="text" id="first_name_<%= artist._id %>" name="first_name" value="<%= artist.first_name %>">
-            </div>
-            <div class="form-group">
-              <label for="last_name_<%= artist._id %>">Last Name:</label>
-              <input type="text" id="last_name_<%= artist._id %>" name="last_name" value="<%= artist.last_name %>">
-            </div>
-            <div class="form-group">
-              <label for="birth_date_<%= artist._id %>">Birth Date:</label>
-              <input type="date" id="birth_date_<%= artist._id %>" name="birth_date" value="<%= artist.birth_date ? artist.birth_date.toISOString().substring(0, 10) : '' %>">
-            </div>
-            <div class="form-group">
-              <label for="death_date_<%= artist._id %>">Death Date:</label>
-              <input type="date" id="death_date_<%= artist._id %>" name="death_date" value="<%= artist.death_date ? artist.death_date.toISOString().substring(0, 10) : '' %>">
-            </div>
-            <div class="form-group">
-              <label for="country_<%= artist._id %>">Country:</label>
-              <input type="text" id="country_<%= artist._id %>" name="country" value="<%= artist.country %>">
-            </div>
-            <div class="form-group">
-              <label for="image_<%= artist._id %>">Image URL:</label>
-              <input type="text" id="image_<%= artist._id %>" name="image" value="<%= artist.image %>">
-            </div>
-            <button type="submit" class="btn btn-warning">Edit</button>
-          </form>
+            <!-- Edit form modal -->
+          <div id="editModal_<%= artist._id %>" class="form-modal">
+              <form action="/artist/edit" method="POST">
+                <input type="hidden" name="id" value="<%= artist._id %>">
+                <div class="form-group">
+                  <label for="first_name_<%= artist._id %>">First Name:</label>
+                  <input type="text" id="first_name_<%= artist._id %>" name="first_name" value="<%= artist.first_name %>">
+                </div>
+                <div class="form-group">
+                  <label for="last_name_<%= artist._id %>">Last Name:</label>
+                  <input type="text" id="last_name_<%= artist._id %>" name="last_name" value="<%= artist.last_name %>">
+                </div>
+                <div class="form-group">
+                  <label for="birth_date_<%= artist._id %>">Birth Date:</label>
+                  <input type="date" id="birth_date_<%= artist._id %>" name="birth_date" value="<%= artist.birth_date ? artist.birth_date.toISOString().substring(0, 10) : '' %>">
+                </div>
+                <div class="form-group">
+                  <label for="death_date_<%= artist._id %>">Death Date:</label>
+                  <input type="date" id="death_date_<%= artist._id %>" name="death_date" value="<%= artist.death_date ? artist.death_date.toISOString().substring(0, 10) : '' %>">
+                </div>
+                <div class="form-group">
+                  <label for="country_<%= artist._id %>">Country:</label>
+                  <input type="text" id="country_<%= artist._id %>" name="country" value="<%= artist.country %>">
+                </div>
+                <div class="form-group">
+                  <label for="image_<%= artist._id %>">Image URL:</label>
+                  <input type="text" id="image_<%= artist._id %>" name="image" value="<%= artist.image %>">
+                </div>
+                <button type="submit" class="btn btn-warning">Confirm Edit</button>
+                <button type="button" onclick="closeEditModal('<%= artist._id %>')" class="btn btn-secondary">Cancel</button>
+              </form>
+          </div>
         </div>
       <% }) %>
     </div>
   </div>
+  <script src="/js/scripts.js"></script>
 </body>
 </html>

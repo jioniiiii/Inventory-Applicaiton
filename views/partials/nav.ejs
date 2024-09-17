@@ -1,37 +1,37 @@
 <nav class="navbar">
     <div class="nav-container">
+        <a href="/" class="nav-logo">
+            <img src="/images/logo.png" alt="Logo" class="logo">
+        </a>
         <ul class="nav-links">
             <li><a href="/albums">Albums</a></li>
             <li><a href="/labels">Labels</a></li>
             <li><a href="/genres">Genres</a></li>
             <li><a href="/artists">Artists</a></li>
         </ul>
-        <button class="nav-toggle">Menu</button>
-        <a href="/" class="nav-logo">
-            <img src="/images/logo.png" alt="Logo" class="logo">
-        </a>
         <form class="search-form" action="/search" method="GET">
-            <input type="text" name="query" placeholder="Search..." class="search-input">
+            <input type="text" name="search" id="search" placeholder="Search..." class="search-input">
             <button type="submit" class="search-button">Search</button>
         </form>
+        <button class="nav-toggle" aria-label="Toggle menu">Menu</button>
     </div>
 </nav>
 
 <nav class="navbar-mobile">
     <div class="nav-container">
-        <ul class="nav-links">
-            <li><a href="/albums">Albums</a></li>
-            <li><a href="/labels">Labels</a></li>
-            <li><a href="/genres">Genres</a></li>
-            <li><a href="/artists">Artists</a></li>
-        </ul>
-        <a href="/" class="nav-logo"></a>
+        <a href="/" class="nav-logo">
             <img src="/images/logo.png" alt="Logo" class="logo">
         </a>
-        <div class="cont">
-            <button class="nav-toggle">Menu</button>
+        <button class="nav-toggle" aria-label="Toggle menu">Menu</button>
+        <div class="mobile-nav-content">
+            <ul class="nav-links">
+                <li><a href="/albums">Albums</a></li>
+                <li><a href="/labels">Labels</a></li>
+                <li><a href="/genres">Genres</a></li>
+                <li><a href="/artists">Artists</a></li>
+            </ul>
             <form class="search-form" action="/search" method="GET">
-                <input type="text" name="query" placeholder="Search..." class="search-input">
+                <input type="text"  name="search" id="search" placeholder="Search..." class="search-input">
                 <button type="submit" class="search-button">Search</button>
             </form>
         </div>
@@ -39,12 +39,28 @@
 </nav>
 
 <script>
-    
-        const navLinks = document.querySelector('.nav-links');
-        const navToggle = document.querySelector('.nav-toggle');
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileNavLinks = document.querySelector('.navbar-mobile .nav-links');
+    const mobileNavToggle = document.querySelector('.navbar-mobile .nav-toggle');
 
-        navToggle.addEventListener('click', function () {
-            navLinks.classList.toggle('active');
+    if (mobileNavToggle) {
+        mobileNavToggle.addEventListener('click', function() {
+            mobileNavLinks.classList.toggle('active');
         });
+    }
+    document.addEventListener('click', function(event) {
+        if (!mobileNavLinks.contains(event.target) && !mobileNavToggle.contains(event.target)) {
+            mobileNavLinks.classList.remove('active');
+        }
+    });
+});
 
+document.getElementById('searchButton').addEventListener('click', function() {
+        const query = document.getElementById('searchInput').value;
+        fetch(`/api/search?q=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Handle the search results
+            });
+    });
 </script>

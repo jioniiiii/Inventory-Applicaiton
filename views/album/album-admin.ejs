@@ -8,120 +8,138 @@
 </head>
 <body>
   <%- include('../partials/nav') %>
+  <h1 style="text-align: center;">Manage Albums</h1>
+  <div class="add-conteiner">
+    <div class="add-card">
+        <h1 id="toggleFormBtn">+</h1>
+    </div>
+    <div id="formModal" class="form-modal">
+      <form action="/album/add" method="POST">
+        <div class="form-group">
+          <label for="title">Album Title:</label>
+          <input type="text" id="title" name="title" required placeholder="Enter album title">
+        </div>
+        <div class="form-group">
+          <label for="release_date">Release Date:</label>
+          <input type="date" id="release_date" name="release_date" required>
+        </div>
+        <div class="form-group">
+          <label for="artist">Artist:</label>
+          <select id="artist" name="artist" required>
+            <% artists.forEach(artist => { %>
+              <option value="<%= artist._id %>"><%= artist.first_name %> <%= artist.last_name %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="label">Label:</label>
+          <select id="label" name="label" required>
+            <% labels.forEach(label => { %>
+              <option value="<%= label._id %>"><%= label.name %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="genre">Genre:</label>
+          <select id="genre" name="genre">
+            <% genres.forEach(genre => { %>
+              <option value="<%= genre._id %>"><%= genre.name %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="image">Image URL:</label>
+          <input type="text" id="image" name="image" placeholder="Enter image URL">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Album</button>
+        <button type="button" class="btn btn-secondary" onclick="closeForm()">Cancel</button>
+      </form>
+    </div>
+  </div>
+
   <div class="container">
-    <h1>Manage Albums</h1>
-
-    <!-- add form -->
-    <form action="/album/add" method="POST">
-      <div class="form-group">
-        <label for="title">Album Title:</label>
-        <input type="text" id="title" name="title" required placeholder="Enter album title">
-      </div>
-      <div class="form-group">
-        <label for="release_date">Release Date:</label>
-        <input type="date" id="release_date" name="release_date" required>
-      </div>
-      <div class="form-group">
-        <label for="artist">Artist:</label>
-        <select id="artist" name="artist" required>
-          <% artists.forEach(artist => { %>
-            <option value="<%= artist._id %>"><%= artist.first_name %> <%= artist.last_name %></option>
-          <% }) %>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="label">Label:</label>
-        <select id="label" name="label" required>
-          <% labels.forEach(label => { %>
-            <option value="<%= label._id %>"><%= label.name %></option>
-          <% }) %>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="genre">Genre:</label>
-        <select id="genre" name="genre">
-          <% genres.forEach(genre => { %>
-            <option value="<%= genre._id %>"><%= genre.name %></option>
-          <% }) %>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="image">Image URL:</label>
-        <input type="text" id="image" name="image" placeholder="Enter image URL">
-      </div>
-      <button type="submit" class="btn btn-primary">Add Album</button>
-    </form>
-
     <div class="grid-container">
       <% albums.forEach(album => { %>
-        <div class="album-card">
-          <h2><%= album.title %></h2>
-          <p>Release Date: <%= album.release_date.toDateString() %></p>
-          <p><strong>Released:</strong> <%= album.release_date ? new Date(album.release_date).toDateString() : 'N/A' %></p>
-          <p><strong>Artist:</strong> <%= album.artist && album.artist.name ? album.artist.name : 'N/A' %></p>
-          <p><strong>Genre:</strong> <%= album.genre && album.genre.name ? album.genre.name : 'N/A' %></p>
-          <p><strong>Label:</strong> <%= album.label && album.label.name ? album.label.name : 'N/A' %></p>
-          <img src="<%= album.image %>" alt="<%= album.title %>" style="max-width: 100px;">
-
-          <!-- delete form -->
-          <form action="/album/delete" method="POST" style="display: inline;">
-            <input type="hidden" name="id" value="<%= album._id %>">
-            <button type="submit" class="btn btn-danger">Delete</button>
-          </form>
-
-          <!-- edit form -->
-          <form action="/album/edit" method="POST" style="display: inline;">
-            <input type="hidden" name="id" value="<%= album._id %>">
-            <div class="form-group">
-              <label for="title_<%= album._id %>">Title:</label>
-              <input type="text" id="title_<%= album._id %>" name="title" value="<%= album.title %>">
-            </div>
-            <div class="form-group">
-              <label for="release_date_<%= album._id %>">Release Date:</label>
-              <input type="date" id="release_date_<%= album._id %>" name="release_date" value="<%= album.release_date.toISOString().split('T')[0] %>">
-            </div>
-            <div class="form-group">
-              <label for="artist_<%= album._id %>">Artist:</label>
-              <select id="artist_<%= album._id %>" name="artist">
-                <% artists.forEach(artist => { %>
-                  <option value="<%= artist._id %>" <%= album.artist._id.equals(artist._id) ? 'selected' : '' %>>
-                    <%= artist.first_name %> <%= artist.last_name %>
-                  </option>
-                <% }) %>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="label_<%= album._id %>">Label:</label>
-              <select id="label_<%= album._id %>" name="label">
-                <% labels.forEach(label => { %>
-                  <option value="<%= label._id %>" <%= album.label._id.equals(label._id) ? 'selected' : '' %>>
-                    <%= label.name %>
-                  </option>
-                <% }) %>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="genre_<%= album._id %>">Genre:</label>
-              <select id="genre_<%= album._id %>" name="genre">
-                <% genres.forEach(genre => { %>
-                  <option value="<%= genre._id %>" <%= album.genre && album.genre._id.equals(genre._id) ? 'selected' : '' %>>
-                    <%= genre.name %>
-                  </option>
-                <% }) %>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="image_<%= album._id %>">Image URL:</label>
-              <input type="text" id="image_<%= album._id %>" name="image" value="<%= album.image %>">
-            </div>
-            <button type="submit" class="btn btn-warning">Edit</button>
-          </form>
+        <div class="form-modal-container">
           <div class="album-card">
+            <img src="<%= album.image %>" alt="<%= album.title %>">
+            <h2><%= album.title %></h2>
+            <p>Release Date: <%= album.release_date.toDateString() %></p>
+            <p><strong>Released:</strong> <%= album.release_date ? new Date(album.release_date).toDateString() : 'N/A' %></p>
+            <p><strong>Artist:</strong> <%= album.artist && album.artist.name ? album.artist.name : 'N/A' %></p>
+            <p><strong>Genre:</strong> <%= album.genre && album.genre.name ? album.genre.name : 'N/A' %></p>
+            <p><strong>Label:</strong> <%= album.label && album.label.name ? album.label.name : 'N/A' %></p>
+            <!-- Button to open delete form -->
+            <button onclick="openDeleteModal('<%= album._id %>', '<%= album.name %>')" class="btn btn-danger">Delete</button>
+            <!-- Button to open edit form -->
+            <button onclick="openEditModal('<%= album._id %>', '<%= album.name %>')" class="btn btn-warning">Edit</button>
             <a href="/album/format-admin/<%= album._id %>"><h2>format</h2></a>
+          </div>
+
+          <!-- Delete form modal -->
+          <div id="deleteModal_<%= album._id %>" class="form-modal">
+            <form action="/album/delete" method="POST">
+                <input type="hidden" name="id" value="<%= album._id %>">
+                <p>Are you sure you want to delete <%= album.title %>?</p>
+                <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                <button type="button" onclick="closeDeleteModal('<%= album._id %>')" class="btn btn-secondary">Cancel</button>
+            </form>
+          </div>
+
+          <!-- Edit form modal -->
+          <div id="editModal_<%= album._id %>" class="form-modal">
+            <form action="/album/edit" method="POST">
+              <input type="hidden" name="id" value="<%= album._id %>">
+              <div class="form-group">
+                <label for="title_<%= album._id %>">Title:</label>
+                <input type="text" id="title_<%= album._id %>" name="title" value="<%= album.title %>">
+              </div>
+              <div class="form-group">
+                <label for="release_date_<%= album._id %>">Release Date:</label>
+                <input type="date" id="release_date_<%= album._id %>" name="release_date" value="<%= album.release_date.toISOString().split('T')[0] %>">
+              </div>
+              <div class="form-group">
+                <label for="artist_<%= album._id %>">Artist:</label>
+                <select id="artist_<%= album._id %>" name="artist">
+                  <% artists.forEach(artist => { %>
+                    <option value="<%= artist._id %>" <%= album.artist && album.artist._id.equals(artist._id) ? 'selected' : '' %>>
+                      <%= artist.first_name %> <%= artist.last_name %>
+                    </option>
+                  <% }) %>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="label_<%= album._id %>">Label:</label>
+                <select id="label_<%= album._id %>" name="label">
+                  <% labels.forEach(label => { %>
+                    <option value="<%= label._id %>" <%= album.label._id.equals(label._id) ? 'selected' : '' %>>
+                      <%= label.name %>
+                    </option>
+                  <% }) %>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="genre_<%= album._id %>">Genre:</label>
+                <select id="genre_<%= album._id %>" name="genre">
+                  <% genres.forEach(genre => { %>
+                    <option value="<%= genre._id %>" <%= album.genre && album.genre._id.equals(genre._id) ? 'selected' : '' %>>
+                      <%= genre.name %>
+                    </option>
+                  <% }) %>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="image_<%= album._id %>">Image URL:</label>
+                <input type="text" id="image_<%= album._id %>" name="image" value="<%= album.image %>">
+              </div>
+                <button type="submit" class="btn btn-warning">Confirm Edit</button>
+                <button type="button" onclick="closeEditModal('<%= album._id %>')" class="btn btn-secondary">Cancel</button>
+            </form>
           </div>
         </div>
       <% }) %>
     </div>
   </div>
+  <script src="/js/scripts.js"></script>
 </body>
 </html>

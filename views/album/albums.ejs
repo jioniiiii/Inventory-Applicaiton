@@ -23,7 +23,7 @@
             <div class="album-info">
               <h2><%= album.title %></h2><!-- error handling for delteting linked things and not crashing-->
               <p><strong>Released:</strong> <%= album.release_date ? new Date(album.release_date).toDateString() : 'N/A' %></p>
-              <p><strong>Artist:</strong> <%= album.artist && album.artist.name ? album.artist.name : 'N/A' %></p>
+              <p><strong>Artist:</strong> <%= album.artist && album.artist.name ? album.artist.name : 'Unknown Artist' %></p>
               <p><strong>Genre:</strong> <%= album.genre && album.genre.name ? album.genre.name : 'N/A' %></p>
               <p><strong>Label:</strong> <%= album.label && album.label.name ? album.label.name : 'N/A' %></p>
             </div>

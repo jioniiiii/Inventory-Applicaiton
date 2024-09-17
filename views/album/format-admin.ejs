@@ -9,53 +9,76 @@
 <body>
   <%- include('../partials/nav') %>
 
+  
+  <h1 style="text-align: center;">Manage Formats for <%= album.title %></h1>
+  <div class="add-conteiner">
+    <div class="add-card">
+      <h1 id="toggleFormBtn">+</h1>
+    </div>
+    <div id="formModal" class="form-modal">
+      <form action="/format/add" method="POST">
+        <input type="hidden" name="album" value="<%= album._id %>">
+        <div class="form-group">
+          <label for="format">Format Type:</label>
+          <select id="format" name="format" required>
+            <option value="">Select Format</option>
+            <option value="Vinyl">Vinyl</option>
+            <option value="CD">CD</option>
+            <option value="Cassette">Cassette</option>
+            <option value="Digital">Digital</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="price">Price:</label>
+          <input type="number" id="price" name="price" required placeholder="Enter price">
+        </div>
+        <div class="form-group">
+          <label for="stock">Stock:</label>
+          <input type="number" id="stock" name="stock" required placeholder="Enter stock">
+        </div>
+        <div class="form-group">
+          <label for="barcode">Barcode:</label>
+          <input type="text" id="barcode" name="barcode" required placeholder="Enter barcode">
+        </div>
+        <div class="form-group">
+          <label for="image">Image URL:</label>
+          <input type="text" id="image" name="image" placeholder="Enter image URL">
+        </div>
+        <button type="submit" class="btn btn-primary">Add format</button>
+        <button type="button" class="btn btn-secondary" onclick="closeForm()">Cancel</button>
+      </form>
+    </div>
+  </div>
   <div class="container">
-    <h1>Manage Formats for <%= album.title %></h1>
-
-    <!-- add form -->
-    <form action="/format/add" method="POST">
-      <input type="hidden" name="album" value="<%= album._id %>">
-      <div class="form-group">
-        <label for="format">Format Type:</label>
-        <select id="format" name="format" required>
-          <option value="">Select Format</option>
-          <option value="Vinyl">Vinyl</option>
-          <option value="CD">CD</option>
-          <option value="Cassette">Cassette</option>
-          <option value="Digital">Digital</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price" required placeholder="Enter price">
-      </div>
-      <div class="form-group">
-        <label for="stock">Stock:</label>
-        <input type="number" id="stock" name="stock" required placeholder="Enter stock">
-      </div>
-      <div class="form-group">
-        <label for="barcode">Barcode:</label>
-        <input type="text" id="barcode" name="barcode" required placeholder="Enter barcode">
-      </div>
-      <div class="form-group">
-        <label for="image">Image URL:</label>
-        <input type="text" id="image" name="image" placeholder="Enter image URL">
-      </div>
-      <button type="submit" class="btn btn-primary">Add Format</button>
-    </form>
-
     <% if (formats.length > 0) { %>
       <div class="grid-container">
         <% formats.forEach(format => { %>
-          <div class="format-card">
-            <h3><%= format.format %></h3>
-            <p><strong>Price:</strong> <%= format.price_formatted %> EUR</p>
-            <p><strong>Stock:</strong> <%= format.stock %></p>
-            <p><strong>Barcode:</strong> <%= format.barcode %></p>
-            <img src="<%= format.image %>" alt="<%= format.format %>" style="max-width: 100px;">
-            
-            <!-- edit form -->
-            <form action="/format/edit" method="POST" style="display: inline;">
+          <div class="form-modal-container">
+            <div class="format-card">
+              <img src="<%= format.image %>" alt="<%= format.format %>">
+              <h3><%= format.format %></h3>
+              <p><strong>Price:</strong> <%= format.price_formatted %> EUR</p>
+              <p><strong>Stock:</strong> <%= format.stock %></p>
+              <p><strong>Barcode:</strong> <%= format.barcode %></p>
+              <!-- Button to open delete form -->
+              <button onclick="openDeleteModal('<%= format._id %>', '<%= format.name %>')" class="btn btn-danger">Delete</button>
+              <!-- Button to open edit form -->
+              <button onclick="openEditModal('<%= format._id %>', '<%= format.name %>')" class="btn btn-warning">Edit</button>
+           </div>
+           
+           <!-- Delete form modal -->
+           <div id="deleteModal_<%= format._id %>" class="form-modal">
+            <form action="/format/delete" method="POST">
+                <input type="hidden" name="id" value="<%= format._id %>">
+                <p>Are you sure you want to delete <%= format.format %></p>
+                <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                <button type="button" onclick="closeDeleteModal('<%= format._id %>')" class="btn btn-secondary">Cancel</button>
+            </form>
+          </div>
+
+          <!-- Edit form modal -->
+          <div id="editModal_<%= format._id %>" class="form-modal">
+            <form action="/format/edit" method="POST">
               <input type="hidden" name="id" value="<%= format._id %>">
               <input type="hidden" name="album" value="<%= album._id %>">
               <div class="form-group">
@@ -83,21 +106,16 @@
                 <label for="image_<%= format._id %>">Image URL:</label>
                 <input type="text" id="image_<%= format._id %>" name="image" value="<%= format.image %>">
               </div>
-              <button type="submit" class="btn btn-warning">Edit Format</button>
-            </form>
-
-            <!-- delete form -->
-            <form action="/format/delete" method="POST" style="display: inline;">
-              <input type="hidden" name="formatId" value="<%= format._id %>">
-              <input type="hidden" name="albumId" value="<%= album._id %>">
-              <button type="submit" class="btn btn-danger">Delete Format</button>
+              <button type="button" onclick="closeEditModal('<%= format._id %>')" class="btn btn-secondary">Cancel</button>
             </form>
           </div>
+        </div>
         <% }) %>
       </div>
     <% } else { %>
       <p>No formats found for this album.</p>
     <% } %>
   </div>
+  <script src="/js/scripts.js"></script>
 </body>
 </html>
